@@ -5,11 +5,15 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
+
 import java.awt.Component;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -147,6 +151,7 @@ public void createDriverForAndroid_Device_Web_WithAppium() throws MalformedURLEx
 	{
 		File file=new File("D:/AutomationMeetUp/Android_Web_Automation/Tool");
 		File file1=new File(file, "chromedriver.exe");
+		String downloadFilepath="D:/AutomationMeetUp/Android_Web_Automation/Tool";
 		DesiredCapabilities cap=new DesiredCapabilities();
 		ChromeOptions options=new ChromeOptions();
 		options.setExperimentalOption("androidPackage", "com.android.chrome");
@@ -155,6 +160,11 @@ public void createDriverForAndroid_Device_Web_WithAppium() throws MalformedURLEx
 		cap.setCapability(MobileCapabilityType.PLATFORM_NAME,"Android");
 		cap.setCapability(MobileCapabilityType.DEVICE_NAME,"YT910QEQ6K");
 		cap.setCapability(MobileCapabilityType.VERSION, "5.0");
+		Map<String, Object> prefs = new HashMap<String, Object>();
+		prefs.put("profile.default_content_settings.popups", 0);
+		prefs.put("download.default_directory", downloadFilepath);
+		prefs.put("savefile.default_directory", downloadFilepath);
+		cap.setCapability(ChromeOptions.CAPABILITY, prefs);
 		System.setProperty("webdriver.chrome.driver", file1.getAbsolutePath());
 		wd = new ChromeDriver(cap);
 		wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
@@ -162,6 +172,8 @@ public void createDriverForAndroid_Device_Web_WithAppium() throws MalformedURLEx
 		wd.get("http://filehippo.com/download_ted_notepad/download/b5170d0cbfa092908cb8664513f5ed6b");
 	    try {
 				Thread.sleep(Long.parseLong("10"));
+				 wd.findElement(By.xpath("//a[contains(@href,'/download/file/')]")).click();
+				 Thread.sleep(Long.parseLong("10"));
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -169,17 +181,7 @@ public void createDriverForAndroid_Device_Web_WithAppium() throws MalformedURLEx
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	    try {
-	    	 wd.findElement(By.xpath("//a[contains(@href,'/download/file/')]")).click();
-			Thread.sleep(Long.parseLong("5"));
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// wd.close();
+		 wd.close();
 	 }
 	
 	
@@ -194,8 +196,9 @@ public void createDriverForAndroid_Device_Web_WithAppium() throws MalformedURLEx
         wd = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         wd.get("http://filehippo.com/download_ted_notepad/download/b5170d0cbfa092908cb8664513f5ed6b");
         try {
-        	 wd.findElement(By.xpath("//a[contains(@href,'/download/file/')]")).click();
 			Thread.sleep(Long.parseLong("10"));
+			 wd.findElement(By.xpath("//a[contains(@href,'/download/file/')]")).click();
+			 Thread.sleep(Long.parseLong("10"));
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -203,16 +206,6 @@ public void createDriverForAndroid_Device_Web_WithAppium() throws MalformedURLEx
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    wd.findElement(By.xpath("//span[contains(text(),'now downloading')]/preceding-sibling::a")).click();
-    try {
-		Thread.sleep(Long.parseLong("5"));
-		wd.quit();
-	} catch (NumberFormatException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}	 wd.close();}
-	 
+        wd.close();
+	}
 }
