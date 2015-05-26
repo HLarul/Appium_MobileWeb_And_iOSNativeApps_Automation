@@ -169,8 +169,8 @@ public void createDriverForAndroid_Device_Web_WithAppium() throws MalformedURLEx
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	    wd.findElement(By.xpath("//a[contains(@href,'/download/file/')]")).click();
 	    try {
+	    	 wd.findElement(By.xpath("//a[contains(@href,'/download/file/')]")).click();
 			Thread.sleep(Long.parseLong("5"));
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -194,6 +194,7 @@ public void createDriverForAndroid_Device_Web_WithAppium() throws MalformedURLEx
         wd = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         wd.get("http://filehippo.com/download_ted_notepad/download/b5170d0cbfa092908cb8664513f5ed6b");
         try {
+        	 wd.findElement(By.xpath("//a[contains(@href,'/download/file/')]")).click();
 			Thread.sleep(Long.parseLong("10"));
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
