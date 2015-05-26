@@ -1,0 +1,10 @@
+<?xml version="1.0"?><!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="iOS_Web_Automation verbose="1">
+    <test name="Verify Functionality of iOS app" verbose="1" configfailurepolicy="continue">
+        <classes>
+            <!-- <class name="com.mobile.equinox.testcases.MakeMe_TestCases"></class>  -->
+            <class name="com.Demo.Automation.TestCases.webTest"></class>
+            <!--class name="com.mobile.equinox.testcases.Calendar_TestCases"></class-->
+        </classes>
+    </test>
+</suite>

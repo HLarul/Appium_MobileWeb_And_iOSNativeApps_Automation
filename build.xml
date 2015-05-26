@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project name="Mobile_Equinox_Automation" default="run" basedir=".">
+    <!-- ________________________initialize properties____________________________ -->
+    <property environment="env" />
+    <property name="ws.home" value="." />
+    <property name="ws.jars" value="${ws.home}/lib" />
+    <property name="test.dest" value="${ws.home}/build" />
+    <property name="test.src" value="${ws.home}/src" />
+    <property name="ng.result" value="test-output" />
+
+    <target name="setClassPath" unless="${test.classpath}">
+        <path id="classpath_jars">
+            <fileset dir="${ws.jars}" includes="*.jar" />
+        </path>
+        <pathconvert pathsep=";" property="test.classpath" refid="classpath_jars" />
+    </target>
+
+    <!-- Prior to this, set the ANT location in the Environment variable. Eclipse by default has the ANT bundled.-->
+    <target name="init" depends="setClassPath">
+        <tstamp>
+            <format property="start.time" pattern="MM/dd/yyyy hh:mm aa" offset="-5" unit="hour" />
+        </tstamp>
+        <condition property="ANT" value="${env.ANT_HOME}/bin/ant.bat"
+            else="${env.ANT_HOME}/bin/ant">
+            <os family="windows" />
+        </condition>
+        <taskdef name="testng" classpath="${test.classpath}" classname="org.testng.TestNGAntTask" />
+    </target>
+
+    <!--clean-->
+    <target name="clean">
+        <echo message="Cleaning destination directory..." />
+        <delete dir="${test.dest}" />
+    </target>
+
+    <!--compile-->
+    <target name="compile" depends="init, clean">                <!-- INit removed-->
+        <delete includeemptydirs="true" quiet="true">
+            <fileset dir="${test.dest}" includes="**/*" />
+        </delete>
+        <echo message="Making directory..." />
+        <mkdir dir="${test.dest}" />
+        <echo message="classpath...: ${test.classpath}" />
+        <echo message="Compiling..." />
+        <fileset dir="${ws.jars}" includes="*.jar" />
+        <echo message="Using Java version ${ant.java.version}." />
+        <javac debug="true" destdir="${test.dest}" srcdir="${test.src}" includeantruntime="false">
+            <classpath>
+                <fileset dir="${ws.jars}">
+                    <include name="**/*.jar" />
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <!--run-->
+    <target name="run" depends="compile">
+        <testng classpath="${test.classpath}: ${test.dest}" suitename="iOS_Web_Automation">
+            <xmlfileset dir="${ws.home}" includes="testng.xml" />
+        </testng>
+    </target>
+
+    <path id="test.c">
+        <fileset dir="${ws.jars}" includes="*.jar" />
+    </path>
+    <!-- run this target as part of automated build -->
+</project>
+
