@@ -34,11 +34,12 @@ import org.testng.annotations.Test;
 public class webTest{
 
 	WebDriver ad;
+	WebDriver iosd;
 
 	@AfterClass
 	public void afterClass()
 	{
-		ad.quit();
+//		ad.quit();
 	}
 
 	@Test(priority=1)
@@ -49,7 +50,7 @@ public class webTest{
 		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,"4d00408661cda0b5");
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "4.4.2");
 		capabilities.setCapability(MobileCapabilityType.LAUNCH_TIMEOUT,"300000");
-		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT,300);
+		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 300);
 		try 
 		{
 			ad = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
@@ -75,10 +76,11 @@ public class webTest{
 		}
 		finally{
 			ad.close();
+			ad.quit();
 		}
 	}
 
-	@Test(priority=1)
+	@Test(priority=2)
 	public void AppiumAndroidNativeBrowserTest() throws MalformedURLException, InterruptedException {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
@@ -97,7 +99,7 @@ public class webTest{
 			//		ad.findElement(By.xpath("//article/section[1]/div/a")).click();
 			ad.findElement(By.xpath("//li[1]/div/h3/a")).click();
 			String meetupTitle = ad.findElement(By.xpath("//div[@class='doc-content ']/h1")).getText();
-			Assert.assertEquals(meetupTitle,"Appium: Mobile Automation Made Awesome");
+			Assert.assertEquals(meetupTitle, "Appium: Mobile Automation Made Awesome");
 		}
 		catch (Exception e)
 		{
@@ -105,10 +107,11 @@ public class webTest{
 		}
 		finally{
 			ad.close();
+			ad.quit();
 		}
 	}
 
-	@Test(priority=2)
+	@Test(priority=3)
 	public void AndroidChromeTestUsingChromeDriver()
 	{
 		String ChromeBinaryPath = System.getProperty("user.dir") +  "/Tool/chromedriver";
@@ -139,41 +142,52 @@ public class webTest{
 		}
 		finally{
 			ad.close();
+			ad.quit();
 		}
 	}
 
-	@Test(priority=3)
-	public void WebTestingUsingiPhoneSimulator()
+	@Test(priority=4)
+	public void iOSWebTestingUsingiPhoneSimulator()
 	{
-		DesiredCapabilities objCapabilities = new DesiredCapabilities();
-		objCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS"); 
-		objCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "Safari");
-		objCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.9");
-		objCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone");
-		objCapabilities.setCapability("deviceReadyTimeout", "450");  //Timeout in seconds while waiting for device to become ready
-		objCapabilities.setCapability("newCommandTimeout", "600000");
-		objCapabilities.setCapability("safariIgnoreFraudWarning", true);
-		objCapabilities.setCapability("safariAllowPopups", true);
-		objCapabilities.setCapability("fullReset", false);  // for iOS only
-		objCapabilities.setCapability("autoAcceptAlerts", true);
-		objCapabilities.setCapability("orientation", "PORTRAIT");
-		try {    
-			ad=new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), objCapabilities);
-			ad.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-			ad.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-			ad.get("http://google.com");
-			ad.findElement(By.name("q")).sendKeys("Appium Meetup Noida");
-			ad.findElement(By.xpath("//button[@type='submit']")).click();
-			ad.findElement(By.xpath("//li[1]/div/h3/a")).click();
-			String meetupTitle = ad.findElement(By.xpath("//div[@class='doc-content ']/h1")).getText();
+		DesiredCapabilities capabilities = new DesiredCapabilities();
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS"); 
+		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.2");
+		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 6");
+		capabilities.setCapability(MobileCapabilityType.LAUNCH_TIMEOUT, "300000");  //ms
+		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300"); //sec
+//		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,"iPhone 6 Plus");
+
+		capabilities.setCapability("safariIgnoreFraudWarning", true);
+		capabilities.setCapability("safariAllowPopups", true);
+		capabilities.setCapability("fullReset", false);  // for iOS only
+//		capabilities.setCapability("noReset", true);
+		capabilities.setCapability("autoAcceptAlerts", true);
+//		capabilities.setCapability("orientation", "PORTRAIT");
+//		capabilities.setCapability("showIOSLog", true);
+
+		try {
+			iosd=new IOSDriver(new URL("http://192.168.1.5:4723/wd/hub"), capabilities);
+			iosd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			iosd.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+			iosd.get("http://google.com");
+			iosd.findElement(By.name("q")).sendKeys("Appium Meetup Noida");
+			iosd.findElement(By.xpath("//button[@type='submit']")).click();
+			iosd.findElement(By.xpath("//li[1]/div/h3/a")).click();
+			String meetupTitle = iosd.findElement(By.xpath("//div[@class='doc-content ']/h1")).getText();
 			Assert.assertEquals(meetupTitle,"Appium: Mobile Automation Made Awesome");
+
+			String Screenshotpath = System.getProperty("user.dir") +  "/Screenshots/";
+			File scrFile = ((TakesScreenshot)iosd).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(scrFile, new File(Screenshotpath + "safari_ss.png"));
 		}
 		catch(Exception ex)
 		{
 			ex.printStackTrace();
 		}
 		finally{
-			ad.close();
+			iosd.close();
+			iosd.quit();
 		}
 	}
 }
