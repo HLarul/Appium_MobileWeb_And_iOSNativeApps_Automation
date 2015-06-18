@@ -59,8 +59,11 @@ public class webTest{
 			ad.get("http://google.com");
 			ad.findElement(By.name("q")).sendKeys("Appium Meetup Noida");
 			ad.findElement(By.xpath("//button[@type='submit']")).click();
-			//		ad.findElement(By.xpath("//article/section[1]/div/a")).click();
-			ad.findElement(By.xpath("//li[1]/div/h3/a")).click();
+			try{
+				ad.findElement(By.xpath("//li[1]/div/h3/a")).click();
+			}catch(NoSuchElementException ne){
+				ad.findElement(By.xpath("//article/section[1]/div/a")).click();
+			}
 			String meetupTitle = ad.findElement(By.xpath("//div[@class='doc-content ']/h1")).getText();
 			Assert.assertEquals(meetupTitle,"Appium: Mobile Automation Made Awesome");
 
@@ -101,7 +104,6 @@ public class webTest{
 			}catch(NoSuchElementException ne){
 				ad.findElement(By.xpath("//article/section[1]/div/a")).click();
 			}
-			//		ad.findElement(By.xpath("//article/section[1]/div/a")).click();
 
 			String meetupTitle = ad.findElement(By.xpath("//div[@class='doc-content ']/h1")).getText();
 			Assert.assertEquals(meetupTitle, "Appium: Mobile Automation Made Awesome");
@@ -136,8 +138,11 @@ public class webTest{
 			ad.get("http://google.com");
 			ad.findElement(By.name("q")).sendKeys("Appium Meetup Noida");
 			ad.findElement(By.xpath("//button[@type='submit']")).click();
-			//		ad.findElement(By.xpath("//article/section[1]/div/a")).click();
-			ad.findElement(By.xpath("//li[1]/div/h3/a")).click();
+			try{
+				ad.findElement(By.xpath("//li[1]/div/h3/a")).click();
+			}catch(NoSuchElementException ne){
+				ad.findElement(By.xpath("//article/section[1]/div/a")).click();
+			}
 			String meetupTitle = ad.findElement(By.xpath("//div[@class='doc-content ']/h1")).getText();
 			Assert.assertEquals(meetupTitle,"Appium: Mobile Automation Made Awesome");
 		}
