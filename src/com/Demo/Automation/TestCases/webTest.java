@@ -85,7 +85,7 @@ public class webTest{
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
 		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,"Android Emulator");
-		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "5.0.1");
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "5.1.1");
 		capabilities.setCapability(MobileCapabilityType.LAUNCH_TIMEOUT,"300000");
 		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT,300);
 		try
@@ -96,8 +96,13 @@ public class webTest{
 			ad.get("http://google.com");
 			ad.findElement(By.name("q")).sendKeys("Appium Meetup Noida");
 			ad.findElement(By.xpath("//button[@type='submit']")).click();
+			try{
+				ad.findElement(By.xpath("//li[1]/div/h3/a")).click();
+			}catch(NoSuchElementException ne){
+				ad.findElement(By.xpath("//article/section[1]/div/a")).click();
+			}
 			//		ad.findElement(By.xpath("//article/section[1]/div/a")).click();
-			ad.findElement(By.xpath("//li[1]/div/h3/a")).click();
+
 			String meetupTitle = ad.findElement(By.xpath("//div[@class='doc-content ']/h1")).getText();
 			Assert.assertEquals(meetupTitle, "Appium: Mobile Automation Made Awesome");
 		}
@@ -106,7 +111,7 @@ public class webTest{
 			e.printStackTrace();
 		}
 		finally{
-			ad.close();
+//			ad.close();
 			ad.quit();
 		}
 	}
@@ -167,7 +172,7 @@ public class webTest{
 //		capabilities.setCapability("showIOSLog", true);
 
 		try {
-			iosd=new IOSDriver(new URL("http://192.168.1.5:4723/wd/hub"), capabilities);
+			iosd=new IOSDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
 			iosd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			iosd.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 			iosd.get("http://google.com");
