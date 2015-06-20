@@ -1,6 +1,7 @@
 # Appium_MobileWeb_And_iOSNativeApps_Automation
 
 This repository is having a sample code :
+
 1. To automate Chrome and Native browser on Android Emulator and Real device using Appium.
 
 2. To automate iOS Safari browser on Simulator.
