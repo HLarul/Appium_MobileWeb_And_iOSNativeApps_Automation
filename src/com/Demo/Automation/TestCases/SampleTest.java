@@ -1,6 +1,7 @@
 package com.Demo.Automation.TestCases;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
@@ -11,7 +12,9 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
@@ -31,10 +34,10 @@ import org.testng.annotations.Test;
 
 
 
-public class webTest{
+public class SampleTest {
 
 	WebDriver ad;
-	WebDriver iosd;
+	IOSDriver iosd;
 
 	@AfterClass
 	public void afterClass()
@@ -183,8 +186,115 @@ public class webTest{
 			iosd.get("http://google.com");
 			iosd.findElement(By.name("q")).sendKeys("Appium Meetup Noida");
 			iosd.findElement(By.xpath("//button[@type='submit']")).click();
-			iosd.findElement(By.xpath("//li[1]/div/h3/a")).click();
+			try{
+				ad.findElement(By.xpath("//li[1]/div/h3/a")).click();
+			}catch(NoSuchElementException ne){
+				ad.findElement(By.xpath("//article/section[1]/div/a")).click();
+			}
 			String meetupTitle = iosd.findElement(By.xpath("//div[@class='doc-content ']/h1")).getText();
+			Assert.assertEquals(meetupTitle,"Appium: Mobile Automation Made Awesome");
+
+			String Screenshotpath = System.getProperty("user.dir") +  "/Screenshots/";
+			File scrFile = ((TakesScreenshot)iosd).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(scrFile, new File(Screenshotpath + "safari_ss.png"));
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		finally{
+			iosd.close();
+			iosd.quit();
+		}
+	}
+
+	@Test(priority=5)
+	 public void iOSWebTestingUsingiPadMiniDevice()
+	{
+		DesiredCapabilities capabilities = new DesiredCapabilities();
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+//		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
+		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1.1");
+		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "garvit's iPad");
+		capabilities.setCapability("udid","dcdbbe4b6d4f76ec109349143f6cdf7941c461aa");
+		capabilities.setCapability(MobileCapabilityType.LAUNCH_TIMEOUT, "300000");  //ms
+		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300"); //sec
+		capabilities.setCapability(MobileCapabilityType.APP, "/Users/amit.rawat/Desktop/Amit/Projects/Automation_MeetUP/Code/SafariLauncher_Builds/Device/iPadMini/SafariLauncher.app");
+		capabilities.setCapability("noReset", true);
+		capabilities.setCapability("autoAcceptAlerts", true);
+
+
+		try {
+			iosd=new IOSDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
+			iosd.findElement(MobileBy.AccessibilityId("launch safari")).click();
+			Thread.sleep(5000);
+			Set<String> handles = iosd.getContextHandles();
+			iosd.context((String) handles.toArray()[1]);
+
+			iosd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			iosd.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+			iosd.get("http://google.com");
+			iosd.findElement(By.name("q")).sendKeys("Appium Meetup Noida");
+			iosd.findElement(By.xpath("//button[@type='submit']")).click();
+			try{
+				iosd.findElement(By.xpath("//li[1]/div/h3/a")).click();
+			}catch(NoSuchElementException ne){
+				iosd.findElement(By.xpath("//article/section[1]/div/a")).click();
+			}
+			String meetupTitle = iosd.findElement(By.xpath("//div[@id='event-title']/h1")).getText();
+			Assert.assertEquals(meetupTitle,"Appium: Mobile Automation Made Awesome");
+
+			String Screenshotpath = System.getProperty("user.dir") +  "/Screenshots/";
+			File scrFile = ((TakesScreenshot)iosd).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(scrFile, new File(Screenshotpath + "safari_ss.png"));
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		finally{
+			iosd.close();
+			iosd.quit();
+		}
+	}
+	@Test(priority=6)
+	public void iOSNativeAppTestingUsingiPadMiniDevice()
+	{
+		DesiredCapabilities capabilities = new DesiredCapabilities();
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+//		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
+		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1.1");
+		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "garvit's iPad");
+		capabilities.setCapability("udid","dcdbbe4b6d4f76ec109349143f6cdf7941c461aa");
+		capabilities.setCapability(MobileCapabilityType.LAUNCH_TIMEOUT, "300000");  //ms
+		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300"); //sec
+//		capabilities.setCapability(MobileCapabilityType.APP, "/Users/amit.rawat/Desktop/Amit/Projects/Automation_MeetUP/Code/SafariLauncher_Builds/Sim/SafariLauncher.app");
+		capabilities.setCapability(MobileCapabilityType.APP, "/Users/amit.rawat/Desktop/Amit/Projects/Automation_MeetUP/Code/SafariLauncher_Builds/Device/iPadMini/Equinox.app");
+		capabilities.setCapability("fullReset", true);  // for iOS only
+//		capabilities.setCapability("noReset", true);
+		capabilities.setCapability("autoAcceptAlerts", true);
+
+
+		try {
+			iosd=new IOSDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
+			iosd.findElement(MobileBy.AccessibilityId("launch safari")).click();
+			Thread.sleep(5000);
+			Set<String> handles = iosd.getContextHandles();
+			iosd.context((String) handles.toArray()[1]);
+
+			iosd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			iosd.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+			iosd.get("http://google.com");
+			iosd.findElement(By.name("q")).sendKeys("Appium Meetup Noida");
+			iosd.findElement(By.xpath("//button[@type='submit']")).click();
+			try{
+				iosd.findElement(By.xpath("//li[1]/div/h3/a")).click();
+			}catch(NoSuchElementException ne){
+				iosd.findElement(By.xpath("//article/section[1]/div/a")).click();
+			}
+			String meetupTitle = iosd.findElement(By.xpath("//div[@id='event-title']/h1")).getText();
 			Assert.assertEquals(meetupTitle,"Appium: Mobile Automation Made Awesome");
 
 			String Screenshotpath = System.getProperty("user.dir") +  "/Screenshots/";

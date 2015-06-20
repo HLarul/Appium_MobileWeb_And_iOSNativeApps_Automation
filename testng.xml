@@ -3,7 +3,7 @@
     <test name="Verify Functionality of iOS app" verbose="1" configfailurepolicy="continue">
         <classes>
             <!-- <class name="com.mobile.equinox.testcases.MakeMe_TestCases"></class>  -->
-            <class name="com.Demo.Automation.TestCases.webTest"></class>
+            <class name="com.Demo.Automation.TestCases.SampleTest"></class>
             <!--class name="com.mobile.equinox.testcases.Calendar_TestCases"></class-->
         </classes>
     </test>
