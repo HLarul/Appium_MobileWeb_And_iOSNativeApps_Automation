@@ -263,39 +263,27 @@ public class SampleTest {
 	{
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
-//		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
 		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1.1");
-		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "garvit's iPad");
-		capabilities.setCapability("udid","dcdbbe4b6d4f76ec109349143f6cdf7941c461aa");
+//		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1.1");  //iPadMini
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.1.2");  //iPhone6
+		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "garvit's iPhone");
+//		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "garvit's iPad");
+//		capabilities.setCapability("udid","dcdbbe4b6d4f76ec109349143f6cdf7941c461aa");  //iPadMini
+		capabilities.setCapability("udid","6b9897d5bb4f1963bb34b35d4f49d2ffc43a4b81");  //iPhone 5
 		capabilities.setCapability(MobileCapabilityType.LAUNCH_TIMEOUT, "300000");  //ms
 		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300"); //sec
 //		capabilities.setCapability(MobileCapabilityType.APP, "/Users/amit.rawat/Desktop/Amit/Projects/Automation_MeetUP/Code/SafariLauncher_Builds/Sim/SafariLauncher.app");
 		capabilities.setCapability(MobileCapabilityType.APP, "/Users/amit.rawat/Desktop/Amit/Projects/Automation_MeetUP/Code/SafariLauncher_Builds/Device/iPadMini/Equinox.app");
-		capabilities.setCapability("fullReset", true);  // for iOS only
-//		capabilities.setCapability("noReset", true);
+//		capabilities.setCapability("fullReset", true);  // for iOS only
+		capabilities.setCapability("noReset", true);
 		capabilities.setCapability("autoAcceptAlerts", true);
+		capabilities.setCapability("locationServicesAuthorized", true);
+		capabilities.setCapability("bundleId","com.equinoxautomation.EquinoxDev");
 
 
 		try {
 			iosd=new IOSDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
 			iosd.findElement(MobileBy.AccessibilityId("launch safari")).click();
-			Thread.sleep(5000);
-			Set<String> handles = iosd.getContextHandles();
-			iosd.context((String) handles.toArray()[1]);
-
-			iosd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-			iosd.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-			iosd.get("http://google.com");
-			iosd.findElement(By.name("q")).sendKeys("Appium Meetup Noida");
-			iosd.findElement(By.xpath("//button[@type='submit']")).click();
-			try{
-				iosd.findElement(By.xpath("//li[1]/div/h3/a")).click();
-			}catch(NoSuchElementException ne){
-				iosd.findElement(By.xpath("//article/section[1]/div/a")).click();
-			}
-			String meetupTitle = iosd.findElement(By.xpath("//div[@id='event-title']/h1")).getText();
-			Assert.assertEquals(meetupTitle,"Appium: Mobile Automation Made Awesome");
 
 			String Screenshotpath = System.getProperty("user.dir") +  "/Screenshots/";
 			File scrFile = ((TakesScreenshot)iosd).getScreenshotAs(OutputType.FILE);
