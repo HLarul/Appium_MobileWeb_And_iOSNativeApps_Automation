@@ -264,15 +264,11 @@ public class SampleTest {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
 		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-//		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1.1");  //iPadMini
-		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.1.2");  //iPhone6
-		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "garvit's iPhone");
-//		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "garvit's iPad");
-//		capabilities.setCapability("udid","dcdbbe4b6d4f76ec109349143f6cdf7941c461aa");  //iPadMini
-		capabilities.setCapability("udid","6b9897d5bb4f1963bb34b35d4f49d2ffc43a4b81");  //iPhone 5
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1.1");  //iPadMini
+		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "garvit's iPad");
+		capabilities.setCapability("udid","dcdbbe4b6d4f76ec109349143f6cdf7941c461aa");  //iPadMini
 		capabilities.setCapability(MobileCapabilityType.LAUNCH_TIMEOUT, "300000");  //ms
 		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300"); //sec
-//		capabilities.setCapability(MobileCapabilityType.APP, "/Users/amit.rawat/Desktop/Amit/Projects/Automation_MeetUP/Code/SafariLauncher_Builds/Sim/SafariLauncher.app");
 		capabilities.setCapability(MobileCapabilityType.APP, "/Users/amit.rawat/Desktop/Amit/Projects/Automation_MeetUP/Code/SafariLauncher_Builds/Device/iPadMini/Equinox.app");
 //		capabilities.setCapability("fullReset", true);  // for iOS only
 		capabilities.setCapability("noReset", true);
@@ -280,6 +276,41 @@ public class SampleTest {
 		capabilities.setCapability("locationServicesAuthorized", true);
 		capabilities.setCapability("bundleId","com.equinoxautomation.EquinoxDev");
 
+
+		try {
+			iosd=new IOSDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
+			iosd.findElement(MobileBy.AccessibilityId("")).click();
+
+			String Screenshotpath = System.getProperty("user.dir") +  "/Screenshots/";
+			File scrFile = ((TakesScreenshot)iosd).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(scrFile, new File(Screenshotpath + "safari_ss.png"));
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		finally{
+			iosd.close();
+			iosd.quit();
+		}
+	}
+
+	@Test(priority=7)
+	public void iOSNativeAppTestingUsingSimulator()
+	{
+		DesiredCapabilities capabilities = new DesiredCapabilities();
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.2");  //iPhone6
+		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 6");
+		capabilities.setCapability(MobileCapabilityType.LAUNCH_TIMEOUT, "300000");  //ms
+		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300"); //sec
+		capabilities.setCapability(MobileCapabilityType.APP, "/Users/amit.rawat/Desktop/Amit/Projects/Automation_MeetUP/Code/SafariLauncher_Builds/Sim/Equinox.app");
+//		capabilities.setCapability("fullReset", true);  // for iOS only
+		capabilities.setCapability("noReset", true);
+		capabilities.setCapability("autoAcceptAlerts", true);
+		capabilities.setCapability("locationServicesAuthorized", true);
+		capabilities.setCapability("bundleId","com.equinoxautomation.EquinoxDev");
 
 		try {
 			iosd=new IOSDriver(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
