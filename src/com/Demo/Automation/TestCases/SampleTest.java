@@ -46,7 +46,7 @@ public class SampleTest {
 	}
 
 	@Test(priority=1)
-	public void AppiumAndroidChromeTest() throws MalformedURLException, InterruptedException {
+	public void AppiumAndroidDeviceChromeTest() throws MalformedURLException, InterruptedException {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.CHROME);
 		//    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,"Android");
@@ -93,7 +93,7 @@ public class SampleTest {
 		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,"Android Emulator");
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "5.1.1");
 		capabilities.setCapability(MobileCapabilityType.LAUNCH_TIMEOUT,"300000");
-		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT,300);
+		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT,"300");
 		try
 		{
 			ad = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
@@ -187,9 +187,9 @@ public class SampleTest {
 			iosd.findElement(By.name("q")).sendKeys("Appium Meetup Noida");
 			iosd.findElement(By.xpath("//button[@type='submit']")).click();
 			try{
-				ad.findElement(By.xpath("//li[1]/div/h3/a")).click();
+				iosd.findElement(By.xpath("//li[1]/div/h3/a")).click();
 			}catch(NoSuchElementException ne){
-				ad.findElement(By.xpath("//article/section[1]/div/a")).click();
+				iosd.findElement(By.xpath("//article/section[1]/div/a")).click();
 			}
 			String meetupTitle = iosd.findElement(By.xpath("//div[@class='doc-content ']/h1")).getText();
 			Assert.assertEquals(meetupTitle,"Appium: Mobile Automation Made Awesome");
@@ -211,6 +211,7 @@ public class SampleTest {
 	@Test(priority=5)
 	 public void iOSWebTestingUsingiPadMiniDevice()
 	{
+		String build_location = System.getProperty("user.dir") +  "/Tool/iPadMini_Builds/SafariLauncher.zip";
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
 //		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
@@ -266,14 +267,14 @@ public class SampleTest {
 		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
 //		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1.1");  //iPadMini
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.1.2");  //iPhone6
-		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "garvit's iPhone");
+		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "garvit's iPhone (2)");
 //		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "garvit's iPad");
 //		capabilities.setCapability("udid","dcdbbe4b6d4f76ec109349143f6cdf7941c461aa");  //iPadMini
-		capabilities.setCapability("udid","6b9897d5bb4f1963bb34b35d4f49d2ffc43a4b81");  //iPhone 5
+		capabilities.setCapability("udid","16202d44bfaa64925a4cd6b4ae0a0fd267b1b097");  //iPhone 6 Plus
 		capabilities.setCapability(MobileCapabilityType.LAUNCH_TIMEOUT, "300000");  //ms
 		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300"); //sec
 //		capabilities.setCapability(MobileCapabilityType.APP, "/Users/amit.rawat/Desktop/Amit/Projects/Automation_MeetUP/Code/SafariLauncher_Builds/Sim/SafariLauncher.app");
-		capabilities.setCapability(MobileCapabilityType.APP, "/Users/amit.rawat/Desktop/Amit/Projects/Automation_MeetUP/Code/SafariLauncher_Builds/Device/iPadMini/Equinox.app");
+		capabilities.setCapability(MobileCapabilityType.APP, "/Users/ruchi.bajpai/Desktop/MeetUp/iPhone5_Builds/Equinox.app");
 //		capabilities.setCapability("fullReset", true);  // for iOS only
 		capabilities.setCapability("noReset", true);
 		capabilities.setCapability("autoAcceptAlerts", true);
